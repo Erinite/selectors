@@ -31,15 +31,15 @@
 (specter/providepath pre-order-walker
   (if-path pred
     (if-path [pred]
-      (stay-then-continue ALL (params-reset hiccup-walker))
-      [ALL (params-reset hiccup-walker)])))
+      (stay-then-continue ALL (params-reset pre-order-walker))
+      [ALL (params-reset pre-order-walker)])))
 
 (specter/declarepath post-order-walker [type match-fn?])
 (specter/providepath post-order-walker
   (if-path pred
     (if-path [pred]
-      (continue-then-stay ALL (params-reset hiccup-walker))
-      [ALL (params-reset hiccup-walker)])))
+      (continue-then-stay ALL (params-reset post-order-walker))
+      [ALL (params-reset post-order-walker)])))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Public API
@@ -90,7 +90,7 @@
 (defn attrs
   "Match if node has all attrs in `attrs`"
   [attr-map]
-  #(= (select-keys (second %) (keys attr-map) attr-map)))
+  #(= (select-keys (second %) (keys attr-map)) attr-map))
 
 
 (defn sel-attrs
